@@ -25,5 +25,4 @@ fun NotesListScreen(notes: List<Note>, modifier: Modifier) {
             )
         }
     }
-
 }

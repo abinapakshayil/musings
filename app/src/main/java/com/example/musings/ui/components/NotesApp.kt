@@ -20,6 +20,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.musings.data.Note
 import com.example.musings.ui.screens.NotesListScreen
 import androidx.navigation.compose.composable
+import com.example.musings.ui.screens.AddNoteScreen
 
 
 @Composable
@@ -81,20 +82,7 @@ fun NotesApp(navController: NavHostController) {
                     )
                 }
             }
-        },
-        floatingActionButton = {
-            if (currentRoute == BottomNavScreen.NotesList.route) {
-                FloatingActionButton(
-                    onClick = {
-                        navController.navigate(BottomNavScreen.AddNote.route)
-                    }
-                ) {
-                    Icon(Icons.Default.Add, contentDescription = "Add Note")
-                }
-            }
-        },
-
-        floatingActionButtonPosition = FabPosition.Center,
+        }
     ) { paddingValues ->
         NavHost(
             navController = navController,
@@ -108,7 +96,13 @@ fun NotesApp(navController: NavHostController) {
                 )
             }
             composable(BottomNavScreen.AddNote.route) {
-                TODO()
+                AddNoteScreen(
+                    onNoteAdded = { title, content ->
+                        TODO()
+                    },
+                    onBackClick = { navController.popBackStack() },
+                    onCancelClick = { navController.popBackStack() }
+                )
             }
             composable(BottomNavScreen.Profile.route) {
                 TODO()
