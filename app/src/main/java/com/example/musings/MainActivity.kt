@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.rememberNavController
 import com.example.musings.ui.components.GenericTopBar
 import com.example.musings.ui.components.NotesApp
 import com.example.musings.ui.theme.MusingsTheme
@@ -24,7 +25,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MusingsTheme {
-                NotesApp()
+                val navController = rememberNavController()
+                NotesApp(navController = navController)
             }
         }
     }
