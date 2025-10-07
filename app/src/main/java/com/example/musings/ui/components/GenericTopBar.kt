@@ -15,6 +15,7 @@ import androidx.compose.material3.DividerDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -25,6 +26,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun GenericTopBar(
     title: String,
+    showBackButton: Boolean = true,
     onBackClick: () -> Unit
 ) {
     Column {
@@ -33,14 +35,16 @@ fun GenericTopBar(
                 Text(text = title)
             },
             navigationIcon = {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                    contentDescription = "Back",
+                IconButton(
+                    onClick = { onBackClick() },
                     modifier = Modifier
-                        .size(60.dp)
-                        .padding(horizontal = 12.dp)
-                        .clickable { onBackClick }
-                )
+                        .size(56.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
+                        contentDescription = "Back"
+                    )
+                }
             },
             modifier = Modifier.fillMaxWidth()
         )

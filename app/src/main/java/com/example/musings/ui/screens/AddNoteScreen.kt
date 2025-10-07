@@ -24,7 +24,6 @@ import androidx.compose.ui.unit.dp
 
 fun AddNoteScreen(
     onNoteAdded: (String, String) -> Unit,
-    onBackClick: () -> Unit,
     onCancelClick: () -> Unit
 ) {
     var title by remember { mutableStateOf("") }

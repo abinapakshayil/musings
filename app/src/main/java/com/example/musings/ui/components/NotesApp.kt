@@ -55,11 +55,29 @@ fun NotesApp(navController: NavHostController) {
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = currentBackStackEntry?.destination?.route
 
+
+    // Show bottom bar only for top-level routes
+    val topLevelRoutes = setOf(
+        BottomNavScreen.AddNote.route,
+        BottomNavScreen.Profile.route,
+        BottomNavScreen.Settings.route
+    )
+    val showBottomBar = currentRoute in topLevelRoutes
+
+    val topBarTitle = when (currentRoute) {
+        BottomNavScreen.NotesList.route -> "Notes"
+        BottomNavScreen.AddNote.route -> "Add Note"
+        BottomNavScreen.Profile.route -> "Profile"
+        BottomNavScreen.Settings.route -> "Settings"
+        else -> ""
+    }
+
     Scaffold(
         topBar = {
             GenericTopBar(
-                title = "Notes",
-                onBackClick = { /* For main screen, maybe finish() or do nothing */ }
+                title = topBarTitle,
+                showBackButton = showBottomBar,
+                onBackClick = { navController.popBackStack() }
             )
         },
         bottomBar = {
@@ -100,7 +118,6 @@ fun NotesApp(navController: NavHostController) {
                     onNoteAdded = { title, content ->
                         TODO()
                     },
-                    onBackClick = { navController.popBackStack() },
                     onCancelClick = { navController.popBackStack() }
                 )
             }
