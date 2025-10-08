@@ -6,9 +6,14 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.musings.data.Note
+import com.example.musings.data.local.Note
+import com.example.musings.ui.components.ConfirmationDialog
 import com.example.musings.ui.components.NoteCard
 import com.example.musings.viewmodel.NoteViewModel
 
@@ -20,6 +25,8 @@ fun NotesListScreen( viewModel: NoteViewModel, modifier: Modifier) {
     // Actual list
     val notesList = notes.value
 
+    var noteToDelete by remember { mutableStateOf<com.example.musings.data.local.Note?>(null) }
+
 
     LazyColumn(
         modifier = modifier
@@ -30,8 +37,21 @@ fun NotesListScreen( viewModel: NoteViewModel, modifier: Modifier) {
             NoteCard(
                 note = note,
                 onEditClick = { TODO() },
-                onDeleteClick = { TODO() }
+                onDeleteClick = { noteToDelete = note }
             )
         }
+    }
+
+    // Show confirmation dialog if a note is selected for deletion
+    noteToDelete?.let { note ->
+        ConfirmationDialog(
+            title = "Delete Note",
+            message = "Are you sure you want to delete this note?",
+            onConfirm = {
+                viewModel.deleteNote(note)
+                noteToDelete = null
+            },
+            onDismiss = { noteToDelete = null }
+        )
     }
 }
