@@ -14,19 +14,33 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.compose.rememberNavController
+import com.example.musings.data.local.DatabaseProvider
+import com.example.musings.data.local.NoteDatabase
+import com.example.musings.data.repository.NoteRepository
 import com.example.musings.ui.components.GenericTopBar
 import com.example.musings.ui.components.NotesApp
 import com.example.musings.ui.theme.MusingsTheme
+import com.example.musings.viewmodel.NoteViewModel
+import com.example.musings.viewmodel.NoteViewModelFactory
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        // Create database and repository instances
+        val database = DatabaseProvider.getDatabase(context = this)
+        val noteRepository = NoteRepository(database.noteDao())
+        val noteViewModel = ViewModelProvider(this, NoteViewModelFactory(noteRepository)).get(
+            NoteViewModel::class.java)
+
+
         setContent {
             MusingsTheme {
                 val navController = rememberNavController()
-                NotesApp(navController = navController)
+                NotesApp(navController = navController, noteViewModel = noteViewModel)
             }
         }
     }

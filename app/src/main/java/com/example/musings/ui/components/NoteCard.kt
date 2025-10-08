@@ -27,7 +27,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.viewModelFactory
-import com.example.musings.data.Note
+import com.example.musings.data.local.Note
 
 @Composable
 fun NoteCard(

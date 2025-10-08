@@ -21,10 +21,11 @@ import com.example.musings.data.Note
 import com.example.musings.ui.screens.NotesListScreen
 import androidx.navigation.compose.composable
 import com.example.musings.ui.screens.AddNoteScreen
+import com.example.musings.viewmodel.NoteViewModel
 
 
 @Composable
-fun NotesApp(navController: NavHostController) {
+fun NotesApp(navController: NavHostController, noteViewModel: NoteViewModel) {
     val sampleNotes = listOf(
         Note(title = "Grocery List", content = "Buy milk, eggs, and bread"),
         Note(title = "Workout Plan", content = "Pushups, squats, and running"),
@@ -109,8 +110,8 @@ fun NotesApp(navController: NavHostController) {
         ) {
             composable(BottomNavScreen.NotesList.route) {
                 NotesListScreen(
-                    notes = sampleNotes,
-                    modifier = Modifier.padding(8.dp)
+                    viewModel = noteViewModel,
+                    modifier = Modifier.padding(8.dp),
                 )
             }
             composable(BottomNavScreen.AddNote.route) {
