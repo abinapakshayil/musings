@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.example.musings.data.Note
+import com.example.musings.data.local.Note
 import com.example.musings.ui.screens.NotesListScreen
 import androidx.navigation.compose.composable
 import com.example.musings.ui.screens.AddNoteScreen
@@ -26,23 +26,6 @@ import com.example.musings.viewmodel.NoteViewModel
 
 @Composable
 fun NotesApp(navController: NavHostController, noteViewModel: NoteViewModel) {
-    val sampleNotes = listOf(
-        Note(title = "Grocery List", content = "Buy milk, eggs, and bread"),
-        Note(title = "Workout Plan", content = "Pushups, squats, and running"),
-        Note(title = "Project Ideas", content = "Build a notes app in Jetpack Compose"),
-        Note(title = "Grocery List", content = "Buy milk, eggs, and bread"),
-        Note(title = "Workout Plan", content = "Pushups, squats, and running"),
-        Note(title = "Project Ideas", content = "Build a notes app in Jetpack Compose"),
-        Note(title = "Grocery List", content = "Buy milk, eggs, and bread"),
-        Note(title = "Workout Plan", content = "Pushups, squats, and running"),
-        Note(title = "Project Ideas", content = "Build a notes app in Jetpack Compose"),
-        Note(title = "Grocery List", content = "Buy milk, eggs, and bread"),
-        Note(title = "Workout Plan", content = "Pushups, squats, and running"),
-        Note(title = "Project Ideas", content = "Build a notes app in Jetpack Compose"),
-        Note(title = "Grocery List", content = "Buy milk, eggs, and bread"),
-        Note(title = "Workout Plan", content = "Pushups, squats, and running"),
-        Note(title = "Project Ideas", content = "Build a notes app in Jetpack Compose")
-    )
 
     // BottomBar screens
     val bottomNavItems = listOf(
@@ -117,7 +100,9 @@ fun NotesApp(navController: NavHostController, noteViewModel: NoteViewModel) {
             composable(BottomNavScreen.AddNote.route) {
                 AddNoteScreen(
                     onNoteAdded = { title, content ->
-                        TODO()
+                        val note = Note(title = title, content =  content)
+                        noteViewModel.addNote(note = note)
+                        navController.popBackStack()
                     },
                     onCancelClick = { navController.popBackStack() }
                 )
