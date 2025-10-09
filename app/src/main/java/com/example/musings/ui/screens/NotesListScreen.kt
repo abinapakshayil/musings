@@ -11,14 +11,18 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.BlendMode.Companion.Screen
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.musings.data.local.Note
+import com.example.musings.ui.components.BottomNavScreen
 import com.example.musings.ui.components.ConfirmationDialog
+import com.example.musings.ui.components.EditNote
 import com.example.musings.ui.components.NoteCard
 import com.example.musings.viewmodel.NoteViewModel
 
 @Composable
-fun NotesListScreen( viewModel: NoteViewModel, modifier: Modifier) {
+fun NotesListScreen(viewModel: NoteViewModel, navController: NavController, modifier: Modifier) {
 
     // Collect notes from the ViewModel
     val notes = viewModel.notes.collectAsState(initial = emptyList())
@@ -36,7 +40,9 @@ fun NotesListScreen( viewModel: NoteViewModel, modifier: Modifier) {
             val note = notesList[index]
             NoteCard(
                 note = note,
-                onEditClick = { TODO() },
+                onEditClick = { navController.navigate(
+                    EditNote.createRoute(note.id, note.title, note.content)
+                ) },
                 onDeleteClick = { noteToDelete = note }
             )
         }

@@ -24,11 +24,15 @@ import com.example.musings.viewmodel.NoteViewModel
 @Composable
 
 fun AddNoteScreen(
-    onNoteAdded: (String, String) -> Unit,
+    noteId: Int? = null,
+    initialTitle: String = "",
+    initialContent: String = "",
+    onNoteAdded: (Int?, String, String) -> Unit,
     onCancelClick: () -> Unit
 ) {
-    var title by remember { mutableStateOf("") }
-    var content by remember { mutableStateOf("") }
+    var noteId by remember { mutableStateOf(noteId) }
+    var title by remember { mutableStateOf(initialTitle) }
+    var content by remember { mutableStateOf(initialContent) }
 
     // Column to stack elements vertically
     Column(
@@ -62,7 +66,7 @@ fun AddNoteScreen(
 
         // Save Button
         Button(
-            onClick = { onNoteAdded(title, content) },
+            onClick = { onNoteAdded(noteId, title, content) },
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Save")

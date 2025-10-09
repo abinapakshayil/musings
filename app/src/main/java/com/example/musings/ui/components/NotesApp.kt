@@ -16,10 +16,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.musings.data.local.Note
 import com.example.musings.ui.screens.NotesListScreen
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.example.musings.ui.screens.AddNoteScreen
 import com.example.musings.viewmodel.NoteViewModel
 
@@ -94,19 +96,53 @@ fun NotesApp(navController: NavHostController, noteViewModel: NoteViewModel) {
             composable(BottomNavScreen.NotesList.route) {
                 NotesListScreen(
                     viewModel = noteViewModel,
+                    navController = navController,
                     modifier = Modifier.padding(8.dp),
                 )
             }
-            composable(BottomNavScreen.AddNote.route) {
+            composable(
+                BottomNavScreen.AddNote.route,
+            ) {
+                backStackEntry ->
                 AddNoteScreen(
-                    onNoteAdded = { title, content ->
-                        val note = Note(title = title, content =  content)
+                    noteId = null,
+                    initialTitle = "",
+                    initialContent = "",
+                    onNoteAdded = { id, title, content ->
+                        val note = Note(id = id ?: 0, title = title, content =  content)
                         noteViewModel.addNote(note = note)
                         navController.popBackStack()
                     },
                     onCancelClick = { navController.popBackStack() }
                 )
             }
+
+            // Non-bottom-bar route (Edit)
+            composable(
+                route = EditNote.route,
+                arguments = listOf(
+                    navArgument("noteId") { type = NavType.IntType },
+                    navArgument("title") { type = NavType.StringType; defaultValue = "" },
+                    navArgument("content") { type = NavType.StringType; defaultValue = "" }
+                )
+            ) { entry ->
+                val noteId = entry.arguments?.getInt("noteId") ?: -1
+                val title = entry.arguments?.getString("title") ?: ""
+                val content = entry.arguments?.getString("content") ?: ""
+
+                AddNoteScreen(
+                    noteId = noteId,
+                    initialTitle = title,
+                    initialContent = content,
+                    onNoteAdded = { id, title, content ->
+                        val note = Note(id = id ?: 0, title = title, content =  content,)
+                        noteViewModel.updateNote(note = note)
+                        navController.popBackStack()
+                    },
+                    onCancelClick = { navController.popBackStack() }
+                )
+            }
+
             composable(BottomNavScreen.Profile.route) {
                 TODO()
             }
