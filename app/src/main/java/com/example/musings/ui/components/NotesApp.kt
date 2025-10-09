@@ -23,6 +23,8 @@ import com.example.musings.ui.screens.NotesListScreen
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.musings.ui.screens.AddNoteScreen
+import com.example.musings.ui.screens.ProfileScreen
+import com.example.musings.ui.screens.SettingsScreen
 import com.example.musings.viewmodel.NoteViewModel
 
 
@@ -144,10 +146,10 @@ fun NotesApp(navController: NavHostController, noteViewModel: NoteViewModel) {
             }
 
             composable(BottomNavScreen.Profile.route) {
-                TODO()
+                ProfileScreen()
             }
             composable(BottomNavScreen.Settings.route) {
-                TODO()
+                SettingsScreen()
             }
         }
     }

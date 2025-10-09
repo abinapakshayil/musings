@@ -45,8 +45,7 @@ fun NotesListScreen(viewModel: NoteViewModel, navController: NavController, modi
             contentAlignment = Alignment.Center
         ) {
             Text(
-                text = "No notes yet.",
-                style = MaterialTheme.typography.bodyLarge
+                text = "No notes yet."
             )
         }
     } else {
